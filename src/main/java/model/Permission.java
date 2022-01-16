@@ -1,22 +1,22 @@
 package model;
 
-import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import utils.Roles;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Getter
 @Setter
 @ToString
 @Entity
-public class User {
+public class Permission {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String username;
-    String password;
-    Roles role;
+
+    String permissionName;
 }
