@@ -8,6 +8,8 @@ import utils.Roles;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,4 +21,11 @@ public class User {
     String username;
     String password;
     Roles role;
+
+    @OneToMany(mappedBy = "user")
+    List<Order> orderList;
+
+    @OneToMany(mappedBy = "user")
+    List<Favorite> favorites;
+
 }
