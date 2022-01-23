@@ -22,7 +22,7 @@ public class Product {
     String description;
     Double weight;
     Double price;
-    String category;
+    String location;
     Boolean isAvailable;
     Integer salePercentage;
 
