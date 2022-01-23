@@ -1,4 +1,4 @@
-package utils;
+package com.example.deliveryapp.utils;
 
 public enum OrderStatus {
     IN_PROCESS("IN_PROCESS"),

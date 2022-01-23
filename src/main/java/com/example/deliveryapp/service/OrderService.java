@@ -1,8 +1,8 @@
-package service;
+package com.example.deliveryapp.service;
 
-import model.Order;
+import com.example.deliveryapp.model.Order;
 import org.springframework.stereotype.Service;
-import utils.OrderStatus;
+import com.example.deliveryapp.utils.OrderStatus;
 
 @Service
 public class OrderService {

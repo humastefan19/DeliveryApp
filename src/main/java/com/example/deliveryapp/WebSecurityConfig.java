@@ -1,3 +1,5 @@
+package com.example.deliveryapp;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

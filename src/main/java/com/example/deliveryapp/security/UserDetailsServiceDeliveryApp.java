@@ -1,13 +1,13 @@
-package security;
+package com.example.deliveryapp.security;
 
 import lombok.RequiredArgsConstructor;
-import model.User;
+import com.example.deliveryapp.model.User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import repository.UserRepository;
+import com.example.deliveryapp.repository.UserRepository;
 import java.util.Collections;
 import java.util.Optional;
 

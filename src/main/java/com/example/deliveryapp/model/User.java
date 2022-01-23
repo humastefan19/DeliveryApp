@@ -1,14 +1,11 @@
-package model;
+package com.example.deliveryapp.model;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import utils.Roles;
+import com.example.deliveryapp.utils.Roles;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -17,13 +14,14 @@ import java.util.List;
 @Entity
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String username;
     String password;
     Roles role;
 
-    @OneToMany(mappedBy = "user")
-    List<Order> orderList;
+//    @OneToMany(mappedBy = "user")
+//    List<Order> orderList;
 
     @OneToMany(mappedBy = "user")
     List<Favorite> favorites;

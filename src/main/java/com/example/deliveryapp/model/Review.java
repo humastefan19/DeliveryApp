@@ -1,4 +1,4 @@
-package model;
+package com.example.deliveryapp.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
-public class Favorite {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -18,5 +18,9 @@ public class Favorite {
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    Restaurant restaurant;
 
 }
