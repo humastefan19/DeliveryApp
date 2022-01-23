@@ -8,6 +8,7 @@ import utils.Roles;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -27,5 +28,8 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     List<Favorite> favorites;
+
+    @OneToMany(mappedBy = "user")
+    List<Review> reviews;
 
 }
