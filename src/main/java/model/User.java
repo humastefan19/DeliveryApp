@@ -1,6 +1,5 @@
 package model;
 
-import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
