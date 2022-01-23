@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-public class Order {
+public class CustomerOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -22,9 +22,9 @@ public class Order {
     Double DeliveryPrice;
     Double TotalProductPrice;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user;
 
     @OneToMany(mappedBy = "order")
     List<Cart> cartList;

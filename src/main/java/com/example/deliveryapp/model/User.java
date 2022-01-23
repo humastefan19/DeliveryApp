@@ -20,8 +20,8 @@ public class User {
     String password;
     Roles role;
 
-//    @OneToMany(mappedBy = "user")
-//    List<Order> orderList;
+    @OneToMany(mappedBy = "user")
+    List<CustomerOrder> orderList;
 
     @OneToMany(mappedBy = "user")
     List<Favorite> favorites;
