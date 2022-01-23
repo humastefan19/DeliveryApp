@@ -1,9 +1,15 @@
 package com.example.deliveryapp.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
+@Getter
+@Setter
+@ToString
 @Entity
 public class Restaurant {
     @Id
@@ -11,10 +17,10 @@ public class Restaurant {
     Long id;
 
     String name;
-    private int locationId;
+//    int locationId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @JoinColumn(name = "location_id")
     private Location location;
 
     @OneToMany(mappedBy = "restaurant")
@@ -23,15 +29,18 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     List<Review> reviews;
 
-    public Restaurant(Long id, String name, int locationId) {
-        this.id = id;
-        this.name = name;
-        this.locationId = locationId;
-    }
+    public Restaurant() {
 
-    public Restaurant(String name, int locationId) {
-        this.name = name;
-        this.locationId = locationId;
     }
+//    public Restaurant(Long id, String name, int locationId) {
+//        this.id = id;
+//        this.name = name;
+//        this.locationId = locationId;
+//    }
+//
+//    public Restaurant(String name, int locationId) {
+//        this.name = name;
+//        this.locationId = locationId;
+//    }
 
 }

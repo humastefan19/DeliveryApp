@@ -8,6 +8,6 @@ import  com.example.deliveryapp.model.Restaurant;
 public class RestaurantMapper {
 
     public Restaurant restaurantRequestToRestaurant(RestaurantRequest restaurantRequest){
-        return new Restaurant(restaurantRequest.getName(),restaurantRequest.getLocationId());
+        return new Restaurant();
     }
 }
