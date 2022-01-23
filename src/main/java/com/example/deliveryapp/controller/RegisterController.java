@@ -11,8 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -25,8 +28,8 @@ public class RegisterController {
         return new BCryptPasswordEncoder();
     }
 
-    @RequestMapping(value = "/perform_register",method = RequestMethod.POST)
-    public String register(@ModelAttribute("registerUser") RegisterUser registerUser, BindingResult bindingResult) {
+    @RequestMapping(value = "/perform_register",method = RequestMethod.POST, produces = "application/json")
+    public String register(@Valid @ModelAttribute("registerUser") RegisterUser registerUser, BindingResult bindingResult, ModelMap modelMap) {
         if(bindingResult.hasErrors()){
             return "register.html";
         }
@@ -35,7 +38,7 @@ public class RegisterController {
         user.setPassword(passwordEncoder().encode(registerUser.getPassword()));
         user.setRole(Roles.USER);
         userRepository.save(user);
-        return "login.html";
+        return "redirect:/login.html";
     }
 
 }

@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login.html").permitAll()
                 .loginProcessingUrl("/perform_login")
                 .failureUrl("/login.html?error=true")
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/index.html");
     }
 
     @Bean
