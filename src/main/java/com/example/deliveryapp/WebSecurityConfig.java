@@ -25,14 +25,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors()
                 .and()
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/createTicket.html" , "/err**", "/succ**","/restaurants/**","/restaurants?**", "/api/createTicket").permitAll()
+                .authorizeRequests().antMatchers("/login.html",
+                        "/register.html",
+                        "/perform_register",
+                        "/perform_login",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/restaurants/**",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login.html").permitAll()
                 .loginProcessingUrl("/perform_login")
                 .failureUrl("/login.html?error=true")
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/index.html");
     }
 
     @Bean
