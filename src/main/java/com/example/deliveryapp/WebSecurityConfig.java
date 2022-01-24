@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors()
                 .and()
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/createTicket.html" , "/err**", "/succ**", "/api/createTicket").permitAll()
+                .authorizeRequests().antMatchers("/createTicket.html" , "/err**", "/succ**","/restaurants/**","/restaurants?**", "/api/createTicket").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

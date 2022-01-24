@@ -35,9 +35,19 @@ public class RestaurantController {
     }
 
     @GetMapping("/get")
-    public List<Restaurant> getCategories(){
+    public List<Restaurant> getRestaurants(){
+        System.out.println("innnn get!!!!" );
+
         return restaurantService.getRestaurants();
     }
+
+
+    @PutMapping("/{id}")
+    public void updateRestaurantName( @PathVariable Long id, @RequestBody Restaurant restaurant){
+        System.out.println("innnn!!!!" + restaurant.getName());
+        restaurantService.updateName(id, restaurant.getName());
+    }
+
 
     @DeleteMapping("/delete")
     public void deleteRestaurantById(@RequestParam Long id) {
