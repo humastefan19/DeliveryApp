@@ -7,6 +7,7 @@ import com.example.deliveryapp.utils.Roles;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,6 +23,8 @@ public class User {
     String username;
     String password;
     Roles role;
+    @Transient
+    private String passwordConfirm;
 
     @OneToMany(mappedBy = "user")
     List<CustomerOrder> orderList;
@@ -31,5 +34,8 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     List<Review> reviews;
+
+    @ManyToMany
+    private Set<Role> roles;
 
 }
