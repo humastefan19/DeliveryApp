@@ -29,9 +29,6 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     List<Review> reviews;
 
-    public Restaurant() {
-
-    }
 //    public Restaurant(Long id, String name, int locationId) {
 //        this.id = id;
 //        this.name = name;
