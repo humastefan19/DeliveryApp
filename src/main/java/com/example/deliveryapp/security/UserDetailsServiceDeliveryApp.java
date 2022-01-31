@@ -30,7 +30,10 @@ public class UserDetailsServiceDeliveryApp implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepo.getUserByUsername(username);
         user.orElseThrow(() -> new UsernameNotFoundException(String.format("Username not found: %s", username)));
-
+//        UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(user.get().getUsername())
+//                .password(user.get().getPassword())
+//                .authorities(user.get().getRoles().stream().limit(1).toString()).build();
+//        return userDetails;
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         for (Role role : user.get().getRoles()){
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
