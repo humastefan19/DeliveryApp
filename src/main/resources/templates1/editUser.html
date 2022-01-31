@@ -11,7 +11,7 @@
 
 <div class="container">
 
-    <form method="POST" class="form-signin" th:object="${userForm}" th:action="@{/registration}">
+    <form method="POST" class="form-signin" th:object="${userEdit}" th:action="@{/editUserRequest}">
         <h2 class="form-signin-heading">Create your account</h2>
         <div class="form-group">
             <input type="text" th:field="*{firstName}" class="form-control" placeholder="First Name"

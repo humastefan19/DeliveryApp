@@ -19,6 +19,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -75,6 +77,44 @@ public class UserController {
     @GetMapping({"/", "/welcome"})
     public String welcome(Model model) {
         return "welcome";
+    }
+
+    @GetMapping("/users")
+    public String getUsers(Model model){
+        List<User> users = userService.getAllUsers();
+
+        model.addAttribute("users",users);
+        return "users";
+    }
+
+    @GetMapping("/getUserForEdit/{id}")
+    public String getUserForEdit(@PathVariable long id, Model model){
+        Optional<User> user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        if(user == null){
+            return "users";
+        }else {
+            return "editUser";
+        }
+    }
+
+    @PostMapping("/editUserRequest")
+    public String editUser(@ModelAttribute("userEdit") User userEdit, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "users";
+        }
+
+        userService.updateUser(userEdit);
+
+
+        return "redirect:/users";
+    }
+
+    @GetMapping("/deleteUser/{id}")
+    public String deleteUser(@PathVariable long id, Model model){
+        userService.deleteUser(id);
+        return "users";
     }
 
 }

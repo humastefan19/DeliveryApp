@@ -17,7 +17,7 @@
 </div>
 <div class="container" sec:authorize="isAuthenticated()">
     <div sec:authorize="hasAuthority('ADMIN')">
-        <a> User Management</a>
+        <a href="/users"> User Management</a>
         <a> Restaurant Management</a>
         <a> Orders Total Count</a>
 
@@ -30,7 +30,7 @@
         This content is only shown to restaurant Manager.
     </div>
     <div sec:authorize="hasAuthority('USER')">
-       <a> Restaurants <a>
+       <a> Restaurants </a>
     </div>
 
 </div>
