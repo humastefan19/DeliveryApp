@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 @Getter
 @Setter
@@ -24,7 +23,7 @@ public class Restaurant {
     private Location location;
 
     @OneToMany(mappedBy = "restaurant")
-    List<Product> productList;
+    List<ProductOld> productList;
 
     @OneToMany(mappedBy = "restaurant")
     List<Review> reviews;

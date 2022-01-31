@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-public class Product {
+public class ProductOld {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

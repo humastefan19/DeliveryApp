@@ -1,7 +1,12 @@
 package com.example.deliveryapp.model.product;
 
-public class BeverageBuilder {
+public class BeverageBuilder implements ProductBuilder {
     private Product product;
+
+    public BeverageBuilder()
+    {
+        this.product = new Product();
+    }
     public void productName(String name){
         product.setName(name);
     }
