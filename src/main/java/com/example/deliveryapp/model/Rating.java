@@ -5,19 +5,21 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Getter
 @Setter
 @ToString
 @Entity
-public class Review {
+public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @NotNull
-    String text;
+    @Min(1)
+    @Max(10)
+    Integer value;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
