@@ -5,6 +5,8 @@ import com.example.deliveryapp.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import com.example.deliveryapp.utils.OrderStatus;
 
+
+
 @Service
 public class OrderService {
 
@@ -15,6 +17,8 @@ public class OrderService {
     }
 
     public CustomerOrder updateOrderStatus(OrderStatus status, Long orderId){
-        return orderRepository.updateStatus(status,orderId);
+        CustomerOrder order = orderRepository.getById(orderId);
+        order.setOrderStatus(status);
+        return orderRepository.save(order);
     }
 }
