@@ -1,0 +1,91 @@
+package com.example.deliveryapp.dto;
+
+import lombok.Builder;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+public class ProductRequest {
+
+    @NotBlank(message = "Name of restaurant cannot be empty")
+    String name;
+    String description;
+    @NotNull
+    String weight;
+    @NotNull
+    @Min(0)
+    Double price;
+    String location;
+    Boolean isAvailable;
+    Integer salePercentage;
+
+    public ProductRequest() {
+    }
+
+    public ProductRequest(@NotBlank(message = "Name of restaurant cannot be empty") String name, String description, @NotNull String weight, @NotNull @Min(0) Double price, String location, Boolean isAvailable, Integer salePercentage) {
+        this.name = name;
+        this.description = description;
+        this.weight = weight;
+        this.price = price;
+        this.location = location;
+        this.isAvailable = isAvailable;
+        this.salePercentage = salePercentage;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Boolean getAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(Boolean available) {
+        isAvailable = available;
+    }
+
+    public Integer getSalePercentage() {
+        return salePercentage;
+    }
+
+    public void setSalePercentage(Integer salePercentage) {
+        this.salePercentage = salePercentage;
+    }
+}

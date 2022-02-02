@@ -21,5 +21,5 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    Product product;
+    ProductOld product;
 }

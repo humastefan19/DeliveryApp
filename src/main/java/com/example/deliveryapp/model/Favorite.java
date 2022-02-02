@@ -21,6 +21,6 @@ public class Favorite {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    Product product;
+    ProductOld product;
 
 }
