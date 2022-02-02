@@ -10,6 +10,7 @@ import com.example.deliveryapp.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -22,5 +23,9 @@ public class ProductService {
     public Product addProduct(Product product, ProductDetails processingProduct){
         processingProduct.addProductDetails(product.getName(), product.getPrice());
         return productRepository.saveAndFlush(processingProduct.finalProduct());
+    }
+
+    public Optional<Product> getProductById(Long id){
+        return productRepository.findById(id);
     }
 }
