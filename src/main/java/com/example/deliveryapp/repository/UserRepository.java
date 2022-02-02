@@ -15,6 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Modifying(flushAutomatically = true)
     @Transactional
-    @Query(value = "Update User u set u.firstName =:firstName, u.lastName =:lastName, u.username =:username, u.address =:address where u.id =:id", nativeQuery = true)
+    @Query(value = "Update User u set u.first_name =:firstName, u.last_name =:lastName, u.username =:username, u.address =:address where u.id =:id", nativeQuery = true)
     void updateUser(@Param("firstName") String firstName,@Param("lastName") String lastName,@Param("username") String username,@Param("address") String address,@Param("id") Long id);
 }

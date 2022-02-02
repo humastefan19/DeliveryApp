@@ -3,6 +3,7 @@ import com.example.deliveryapp.dto.RatingRequest;
 import com.example.deliveryapp.mapper.RatingMapper;
 import com.example.deliveryapp.model.Rating;
 import com.example.deliveryapp.model.User;
+import com.example.deliveryapp.security.SecurityService;
 import com.example.deliveryapp.service.RatingService;
 import com.example.deliveryapp.service.RestaurantService;
 import com.example.deliveryapp.service.UserService;
@@ -23,13 +24,15 @@ public class RatingController {
     private RatingService ratingService;
     private UserService userService;
     private RestaurantService restaurantService;
+    private SecurityService securityService;
 
-    public RatingController(RatingService ratingService, UserService userService, RestaurantService restaurantService,RatingMapper ratingMapper) {
+    public RatingController(RatingService ratingService, UserService userService, RestaurantService restaurantService,RatingMapper ratingMapper, SecurityService securityService) {
 
         this.ratingMapper = ratingMapper;
         this.ratingService = ratingService;
         this.userService = userService;
         this.restaurantService = restaurantService;
+        this.securityService = securityService;
     }
 
 //    @PostMapping
@@ -48,7 +51,7 @@ public class RatingController {
             @PathVariable
                     Long restaurantId)
     {
-         userService.getUserById(1).ifPresent((user) -> ratingRequest.setUser(user));
+         userService.getUserById(securityService.getCurrentUserId()).ifPresent((user) -> ratingRequest.setUser(user));
          restaurantService.getRestaurantById(restaurantId).ifPresent((restaurant) -> ratingRequest.setRestaurant(restaurant));
         Rating rating = ratingMapper.ratingRequestToRating(ratingRequest);
         Rating createdRating = ratingService.addRating(rating);
