@@ -102,11 +102,11 @@ public class UserController {
     public String editUser(@ModelAttribute("userEdit") User userEdit, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "users";
+            return "welcome";
         }
 
         userService.updateUser(userEdit);
-
+        System.out.println(userEdit.getFirstName());
 
         return "redirect:/users";
     }

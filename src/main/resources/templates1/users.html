@@ -31,8 +31,9 @@
                 </span>
             </td>
             <td sec:authorize="hasAuthority('ADMIN')">
-                <a th:href="@{/getUserForEdit/${user.getId()}}"> Edit</a>
-                <a th:href="@{/deleteUser/${user.getId()}}"> Delete</a>
+
+                <a th:href="@{/getUserForEdit/{id}(id = ${user.getId()})}"> Edit</a>
+                <a th:href="@{/deleteUser/{id}(id = ${user.getId()})}"> Delete</a>
             </td>
         </tr>
 
