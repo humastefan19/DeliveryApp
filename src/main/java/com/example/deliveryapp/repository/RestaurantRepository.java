@@ -9,9 +9,6 @@ import org.springframework.data.repository.query.Param;
 import javax.transaction.Transactional;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant,Long> {
-//    @Modifying
-//    @Query(OrderQuery.updateStatusQuery)
-//    Order updateStatus(OrderStatus status, Long orderId);
 
     @Modifying
     @Transactional

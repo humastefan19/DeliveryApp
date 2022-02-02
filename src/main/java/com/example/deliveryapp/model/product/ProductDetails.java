@@ -17,8 +17,6 @@ public class ProductDetails {
     {
 
         this.productBuilder.productName(name);
-        System.out.println("addProductDetails");
-        System.out.println( this.productBuilder.getProduct().getPrice());
         this.productBuilder.description();
         this.productBuilder.availability(true);
         this.productBuilder.price(price);

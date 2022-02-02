@@ -1,11 +1,14 @@
 package com.example.deliveryapp.dto;
 
 import lombok.Builder;
+import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+
+@Data
 public class ProductRequest {
 
     @NotBlank(message = "Name of restaurant cannot be empty")
