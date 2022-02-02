@@ -8,6 +8,7 @@ import com.example.deliveryapp.model.Favorite;
 import com.example.deliveryapp.model.Rating;
 import com.example.deliveryapp.model.product.*;
 import com.example.deliveryapp.model.Restaurant;
+import com.example.deliveryapp.security.SecurityService;
 import com.example.deliveryapp.service.FavoriteService;
 import com.example.deliveryapp.service.ProductService;
 import com.example.deliveryapp.service.UserService;
@@ -29,13 +30,15 @@ public class ProductController {
     private UserService userService;
     private ProductMapper productMapper;
     private FavoriteMapper favoriteMapper;
+    private SecurityService securityService;
 
-    public ProductController(ProductService productService,FavoriteService favoriteService, ProductMapper productMapper, FavoriteMapper favoriteMapper, UserService userService) {
+    public ProductController(ProductService productService,FavoriteService favoriteService, ProductMapper productMapper, FavoriteMapper favoriteMapper, UserService userService, SecurityService securityService) {
         this.productService = productService;
         this.favoriteService = favoriteService;
         this.productMapper = productMapper;
         this.favoriteMapper = favoriteMapper;
         this.userService = userService;
+        this.securityService = securityService;
     }
 
     @PostMapping("/addFoodProduct")
@@ -62,7 +65,7 @@ public class ProductController {
 
     @PostMapping("/{productId}/favorite")
     public ResponseEntity<?> addToFavorites( @PathVariable Long productId, @Valid @RequestBody FavoriteRequest favoriteRequest){
-        userService.getUserById(1).ifPresent((user) -> favoriteRequest.setUser(user));
+        userService.getUserById(securityService.getCurrentUserId()).ifPresent((user) -> favoriteRequest.setUser(user));
         productService.getProductById(productId).ifPresent((product) -> favoriteRequest.setProduct(product));
         Favorite favorite = favoriteMapper.favoriteRequestToFavorite(favoriteRequest);
         Favorite createdFavorite = favoriteService.addFavorite(favorite);
