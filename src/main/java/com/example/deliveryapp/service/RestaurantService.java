@@ -34,14 +34,12 @@ public class RestaurantService {
     }
 
     public List<Review> getReviews(Restaurant restaurant){
-
         return reviewRepository.findByRestaurant(restaurant);
     }
 
     public List<Product> getMenu(Restaurant restaurant){
         return productRepository.findByRestaurant(restaurant);
     }
-
 
     public Restaurant addRestaurant(Restaurant restaurant){
         return restaurantRepository.saveAndFlush(restaurant);
