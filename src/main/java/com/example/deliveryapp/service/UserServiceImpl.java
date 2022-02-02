@@ -42,17 +42,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        return userRepository.updateUser(user.getFirstName(),user.getLastName(),user.getUsername(),user.getAddress(),user.getId());
+    public void updateUser(User user) {
+        System.out.println(user.getLastName());
+        userRepository.updateUser(user.getFirstName(),user.getLastName(),user.getUsername(),user.getAddress(),user.getId());
     }
 
     @Override
-    public void deleteUser(long id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public Optional<User> getUserById(long id) {
+    public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
 }

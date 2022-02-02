@@ -88,9 +88,9 @@ public class UserController {
     }
 
     @GetMapping("/getUserForEdit/{id}")
-    public String getUserForEdit(@PathVariable long id, Model model){
+    public String getUserForEdit(@PathVariable Long id, Model model){
         Optional<User> user = userService.getUserById(id);
-        model.addAttribute("user", user);
+        model.addAttribute("userEdit", user);
         if(user == null){
             return "users";
         }else {
@@ -102,17 +102,17 @@ public class UserController {
     public String editUser(@ModelAttribute("userEdit") User userEdit, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "users";
+            return "welcome";
         }
 
         userService.updateUser(userEdit);
-
+        System.out.println(userEdit.getFirstName());
 
         return "redirect:/users";
     }
 
     @GetMapping("/deleteUser/{id}")
-    public String deleteUser(@PathVariable long id, Model model){
+    public String deleteUser(@PathVariable Long id, Model model){
         userService.deleteUser(id);
         return "users";
     }
