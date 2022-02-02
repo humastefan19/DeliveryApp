@@ -3,13 +3,17 @@ package com.example.deliveryapp.controller;
 import com.example.deliveryapp.dto.RestaurantRequest;
 import com.example.deliveryapp.mapper.RestaurantMapper;
 import com.example.deliveryapp.model.Restaurant;
+import com.example.deliveryapp.model.Review;
+import com.example.deliveryapp.model.product.Product;
 import com.example.deliveryapp.service.RestaurantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.webjars.NotFoundException;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,15 +35,24 @@ public class RestaurantController {
         Restaurant cat = restaurantService.addRestaurant(restaurant);
         return ResponseEntity
                 .created(URI.create("/restaurant/" + restaurantRequest.getName())).body(cat);
-
     }
+
+    @GetMapping("/{restaurantId}/reviews")
+    public List<Review> getReviews( @PathVariable Long restaurantId) throws Exception {
+        return restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getReviews(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+    }
+
+    @GetMapping("/{restaurantId}/menu")
+    public List<Product> getMenu(@PathVariable Long restaurantId) throws Exception {
+        return restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+    }
+
 
     @GetMapping("/get")
     public List<Restaurant> getRestaurants(){
-        System.out.println("innnn get!!!!" );
-
         return restaurantService.getRestaurants();
     }
+
 
 
     @PutMapping("/{id}")
@@ -47,7 +60,6 @@ public class RestaurantController {
         System.out.println("innnn!!!!" + restaurant.getName());
         restaurantService.updateName(id, restaurant.getName());
     }
-
 
     @DeleteMapping("/delete")
     public void deleteRestaurantById(@RequestParam Long id) {

@@ -29,8 +29,6 @@ public class ProductController {
     @PostMapping("/addFoodProduct")
     public ResponseEntity<?> addFoodProduct(@Valid @RequestBody ProductRequest productRequest){
         Product product = productMapper.productRequestToProduct(productRequest);
-        System.out.println("product");
-        System.out.println(product.getName());
         ProductBuilder foodBuilder = new FoodBuilder();
         ProductDetails processingProduct = new ProductDetails(foodBuilder);
         System.out.println(processingProduct);
