@@ -4,6 +4,7 @@ import com.example.deliveryapp.dto.RestaurantRequest;
 import com.example.deliveryapp.mapper.RestaurantMapper;
 import com.example.deliveryapp.model.Restaurant;
 import com.example.deliveryapp.model.Review;
+import com.example.deliveryapp.model.product.Product;
 import com.example.deliveryapp.service.RestaurantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -36,9 +37,14 @@ public class RestaurantController {
                 .created(URI.create("/restaurant/" + restaurantRequest.getName())).body(cat);
     }
 
-    @GetMapping("/reviews/{restaurantId}")
-    public List<Review> seeReviews(  @PathVariable Long restaurantId) throws Exception {
+    @GetMapping("/{restaurantId}/reviews")
+    public List<Review> getReviews( @PathVariable Long restaurantId) throws Exception {
         return restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getReviews(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+    }
+
+    @GetMapping("/{restaurantId}/menu")
+    public List<Product> getMenu(@PathVariable Long restaurantId) throws Exception {
+        return restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
     }
 
 
@@ -54,7 +60,6 @@ public class RestaurantController {
         System.out.println("innnn!!!!" + restaurant.getName());
         restaurantService.updateName(id, restaurant.getName());
     }
-
 
     @DeleteMapping("/delete")
     public void deleteRestaurantById(@RequestParam Long id) {

@@ -1,5 +1,6 @@
 package com.example.deliveryapp.model;
 
+import com.example.deliveryapp.model.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,7 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     @JsonIgnore
-    List<ProductOld> productList;
+    List<Product> productList;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     List<Review> reviewList;

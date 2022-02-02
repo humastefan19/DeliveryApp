@@ -1,6 +1,8 @@
 package com.example.deliveryapp.service;
 
 import com.example.deliveryapp.model.Review;
+import com.example.deliveryapp.model.product.Product;
+import com.example.deliveryapp.repository.ProductRepository.ProductRepository;
 import com.example.deliveryapp.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,10 +21,12 @@ public class RestaurantService {
 
     private RestaurantRepository restaurantRepository;
     private ReviewRepository reviewRepository;
+    private ProductRepository productRepository;
 
-    public RestaurantService(RestaurantRepository restaurantRepository, ReviewRepository reviewRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository, ReviewRepository reviewRepository, ProductRepository productRepository) {
         this.restaurantRepository = restaurantRepository;
         this.reviewRepository = reviewRepository;
+        this.productRepository = productRepository;
     }
 
     public List<Restaurant> getRestaurants(){
@@ -33,6 +37,11 @@ public class RestaurantService {
 
         return reviewRepository.findByRestaurant(restaurant);
     }
+
+    public List<Product> getMenu(Restaurant restaurant){
+        return productRepository.findByRestaurant(restaurant);
+    }
+
 
     public Restaurant addRestaurant(Restaurant restaurant){
         return restaurantRepository.saveAndFlush(restaurant);
