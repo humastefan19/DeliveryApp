@@ -26,6 +26,10 @@ public class CustomerOrder {
     @JoinColumn(name = "user_id")
     User user;
 
+    @ManyToOne
+    @JoinColumn(name = "delivery_id")
+    User delivery;
+
     @OneToMany(mappedBy = "order")
     List<Cart> cartList;
 

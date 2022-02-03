@@ -30,6 +30,9 @@ public class User {
     List<CustomerOrder> orderList;
 
     @OneToMany(mappedBy = "user")
+    List<CustomerOrder> deliveryOrderList;
+
+    @OneToMany(mappedBy = "user")
     List<Favorite> favorites;
 
     @OneToMany(mappedBy = "user")

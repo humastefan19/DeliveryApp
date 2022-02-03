@@ -1,6 +1,7 @@
 package com.example.deliveryapp.security;
 
 import com.example.deliveryapp.model.User;
+import com.example.deliveryapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +26,8 @@ public class SecurityServiceImplementaion implements SecurityService{
     private final AuthenticationManager authenticationManager;
 
     private final UserDetailsService userDetailsService;
+
+    final UserRepository userRepo;
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImplementaion.class);
 
@@ -52,8 +56,9 @@ public class SecurityServiceImplementaion implements SecurityService{
     @Override
     public Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        return user.getId();
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        Optional<User> user1 = userRepo.getUserByUsername(user.getUsername());
+        return user1.get().getId();
     }
 
 }
