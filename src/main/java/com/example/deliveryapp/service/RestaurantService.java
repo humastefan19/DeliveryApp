@@ -84,5 +84,13 @@ public class RestaurantService {
     public void deleteRestaurantById(Long id){
         restaurantRepository.deleteById(id);
     }
+
+    public Restaurant update(Restaurant restaurant){
+        Restaurant restaurant1 = restaurantRepository.getById(restaurant.getId());
+        restaurant1.setName(restaurant.getName());
+        restaurant.setLocation(restaurant.getLocation());
+        return restaurantRepository.save(restaurant1);
+
+    }
 }
 

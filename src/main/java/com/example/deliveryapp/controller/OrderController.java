@@ -1,9 +1,12 @@
 package com.example.deliveryapp.controller;
 
 import com.example.deliveryapp.model.CustomerOrder;
+import com.example.deliveryapp.model.Restaurant;
 import com.example.deliveryapp.model.User;
 import com.example.deliveryapp.security.SecurityService;
 import com.example.deliveryapp.service.OrderService;
+import com.example.deliveryapp.service.RestaurantService;
+import com.example.deliveryapp.service.UserService;
 import com.example.deliveryapp.utils.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,8 @@ public class OrderController {
 
     private final OrderService orderService;
     private final SecurityService securityService;
+    private final RestaurantService restaurantService;
+    private final UserService userService;
     @GetMapping("/order")
     public String getAllOrders(Model model){
         List<CustomerOrder> customerOrders = orderService.getOrders();
@@ -53,8 +58,10 @@ public class OrderController {
     }
 
     @GetMapping("/createOrder")
-    public String createOrder(){
+    public String createOrder(Model model) throws Exception {
         orderService.createOrder();
+        List <Restaurant> restaurants =  userService.getUserById(securityService.getCurrentUserId()).map(user ->restaurantService.getNearbyRestaurants(user.getLatitude(), user.getLongitude())).orElseThrow(() -> new Exception("User not found"));
+        model.addAttribute("restaurants", restaurants);
         return "restaurants";
     }
 
@@ -66,8 +73,13 @@ public class OrderController {
 
     @GetMapping("/ordersHistory")
     public String orderHistory(Model model){
-        List<CustomerOrder> orders = orderService.getOrdersByCustomerId(securityService.getCurrentUserId());
-        model.addAttribute("ordersHistory", orders);
+        if(securityService.getCurrentUserRole().contains("USER")){
+            List<CustomerOrder> orders = orderService.getOrdersByCustomerId(securityService.getCurrentUserId());
+            model.addAttribute("ordersHistory", orders);
+        }else if(securityService.getCurrentUserRole().contains("DELIVERY")){
+            List<CustomerOrder> orders = orderService.getOrderByDeliveryId(securityService.getCurrentUserId());
+            model.addAttribute("ordersHistory", orders);
+        }
         return "orderHistory";
     }
 

@@ -11,8 +11,10 @@ import com.example.deliveryapp.model.Restaurant;
 import com.example.deliveryapp.security.SecurityService;
 import com.example.deliveryapp.service.FavoriteService;
 import com.example.deliveryapp.service.ProductService;
+import com.example.deliveryapp.service.RestaurantService;
 import com.example.deliveryapp.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,35 +33,55 @@ public class ProductController {
     private ProductMapper productMapper;
     private FavoriteMapper favoriteMapper;
     private SecurityService securityService;
+    private RestaurantService restaurantService;
 
-    public ProductController(ProductService productService,FavoriteService favoriteService, ProductMapper productMapper, FavoriteMapper favoriteMapper, UserService userService, SecurityService securityService) {
+    public ProductController(ProductService productService,FavoriteService favoriteService, ProductMapper productMapper, FavoriteMapper favoriteMapper, UserService userService, SecurityService securityService, RestaurantService restaurantService) {
         this.productService = productService;
         this.favoriteService = favoriteService;
         this.productMapper = productMapper;
         this.favoriteMapper = favoriteMapper;
         this.userService = userService;
         this.securityService = securityService;
+        this.restaurantService = restaurantService;
+    }
+
+    @GetMapping("/addFood/{restaurantId}")
+    public String addFood(@PathVariable Long restaurantId, Model model){
+        ProductRequest productRequest = new ProductRequest();
+        productRequest.setId(restaurantId);
+        model.addAttribute("foods", productRequest);
+        return "food";
+    }
+
+    @GetMapping("/addBeverage/{restaurantId}")
+    public String addBeverage(@PathVariable Long restaurantId, Model model){
+        ProductRequest productRequest = new ProductRequest();
+        productRequest.setId(restaurantId);
+        model.addAttribute("beverages", productRequest);
+        return "beverage";
     }
 
     @PostMapping("/addFoodProduct")
-    public ResponseEntity<?> addFoodProduct(@Valid @RequestBody ProductRequest productRequest){
+    public String addFoodProduct(@Valid @ModelAttribute("foods") ProductRequest productRequest, Model model) throws Exception {
         Product product = productMapper.productRequestToProduct(productRequest);
         ProductBuilder foodBuilder = new FoodBuilder();
         ProductDetails processingProduct = new ProductDetails(foodBuilder);
         System.out.println(processingProduct);
         Product serviceResponse = productService.addProduct(product, processingProduct);
-        return ResponseEntity
-                .created(URI.create("/product/")).body(serviceResponse);
+        List<Product> products =  restaurantService.getRestaurantById(serviceResponse.getRestaurant().getId()).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+        model.addAttribute("products", products);
+        return "products";
     }
 
     @PostMapping("/addBeverageProduct")
-    public ResponseEntity<?> addBeverageProduct(@Valid @RequestBody ProductRequest productRequest){
+    public String addBeverageProduct(@Valid @ModelAttribute("beverages") ProductRequest productRequest, Model model) throws Exception {
         System.out.println(productMapper.productRequestToProduct(productRequest));
         ProductBuilder beverageBuilder = new BeverageBuilder();
         ProductDetails processingProduct = new ProductDetails(beverageBuilder);
         Product serviceResponse = productService.addProduct(productMapper.productRequestToProduct(productRequest), processingProduct);
-        return ResponseEntity
-                .created(URI.create("/product/")).body(serviceResponse);
+        List<Product> products =  restaurantService.getRestaurantById(serviceResponse.getRestaurant().getId()).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+        model.addAttribute("products", products);
+        return "products";
 
     }
 

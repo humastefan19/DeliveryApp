@@ -18,16 +18,16 @@
 <div class="container" sec:authorize="isAuthenticated()">
     <div sec:authorize="hasAuthority('ADMIN')">
         <a href="/users"> User Management</a>
-        <a> Restaurant Management</a>
+        <a href="/restaurants/get"> Restaurant Management</a>
         <a href="/order"> Orders Total Count</a>
 
     </div>
     <div sec:authorize="hasAuthority('DELIVERY')">
         <a href="/order"> Pick an order </a>
-        <a> My orders </a>
+        <a href="/orderHistory"> My orders </a>
     </div>
     <div sec:authorize="hasAuthority('RESTAURANTMANAGER')">
-        This content is only shown to restaurant Manager.
+        <a href="/restaurants/get"> Restaurant Management</a>
     </div>
     <div sec:authorize="hasAuthority('USER')">
        <a href="/createOrder"> Restaurants </a>

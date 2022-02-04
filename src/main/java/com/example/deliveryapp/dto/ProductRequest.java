@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ProductRequest {
 
+    Long id;
     @NotBlank(message = "Name of restaurant cannot be empty")
     String name;
     String description;
@@ -26,7 +27,8 @@ public class ProductRequest {
     public ProductRequest() {
     }
 
-    public ProductRequest(@NotBlank(message = "Name of restaurant cannot be empty") String name, String description, @NotNull String weight, @NotNull @Min(0) Double price, String location, Boolean isAvailable, Integer salePercentage) {
+    public ProductRequest(Long id,@NotBlank(message = "Name of restaurant cannot be empty") String name, String description, @NotNull String weight, @NotNull @Min(0) Double price, String location, Boolean isAvailable, Integer salePercentage) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.weight = weight;
@@ -34,6 +36,14 @@ public class ProductRequest {
         this.location = location;
         this.isAvailable = isAvailable;
         this.salePercentage = salePercentage;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

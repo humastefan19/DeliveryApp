@@ -17,6 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class RestaurantRequest{
 
+    private Long id;
     @NotBlank(message = "Name of restaurant cannot be empty")
     private String name;
 

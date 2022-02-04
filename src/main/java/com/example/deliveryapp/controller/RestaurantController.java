@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Validated
@@ -29,10 +30,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestaurantController {
 
-    private RestaurantService restaurantService;
-    private UserService userService;
-    private SecurityService securityService;
-    private RestaurantMapper restaurantMapper;
+    private final RestaurantService restaurantService;
+    private final UserService userService;
+    private final SecurityService securityService;
+    private final RestaurantMapper restaurantMapper;
 
     @GetMapping("/createRestaurant")
     public String registration(Model model) {
@@ -43,9 +44,11 @@ public class RestaurantController {
     }
 
     @PostMapping("/")
-    public String addRestaurant(@Valid @ModelAttribute("restaurant") RestaurantRequest restaurantRequest, BindingResult bindingResult){
+    public String addRestaurant(@Valid @ModelAttribute("restaurant") RestaurantRequest restaurantRequest, BindingResult bindingResult,Model model){
         Restaurant restaurant = restaurantMapper.restaurantRequestToRestaurant(restaurantRequest);
         Restaurant cat = restaurantService.addRestaurant(restaurant);
+        List <Restaurant> restaurants =  restaurantService.getRestaurants();
+        model.addAttribute("restaurants", restaurants);
         return "restaurants";
     }
 
@@ -59,16 +62,16 @@ public class RestaurantController {
 
 
     @GetMapping("/{restaurantId}/menu")
-    public List<Product> getMenu(@PathVariable Long restaurantId) throws Exception {
-        return restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+    public String getMenu(@PathVariable Long restaurantId, Model model) throws Exception {
+        List<Product> products =  restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+        model.addAttribute("products", products);
+        model.addAttribute("restaurantId", restaurantId);
+        return "products";
     }
 
 
     @GetMapping("/get")
     public String getRestaurants(Model model){
-//        List<Review> reviews =  restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getReviews(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
-//        model.addAttribute("reviews", reviews);
-
         List <Restaurant> restaurants =  restaurantService.getRestaurants();
         model.addAttribute("restaurants", restaurants);
         return "restaurants";
@@ -100,4 +103,28 @@ public class RestaurantController {
         restaurantService.deleteRestaurantById(id);
     }
 
+    @GetMapping("/edit/{id}")
+    public String getRestaurantForEdit(@PathVariable Long id, Model model){
+        Optional<Restaurant> restaurant = restaurantService.getRestaurantById(id);
+        RestaurantRequest restaurantRequest = restaurantMapper.restaurantToRestaurantRequest(restaurant.get());
+        model.addAttribute("restaurant", restaurantRequest);
+        return "editRestaurant";
+    }
+
+    @PostMapping("/performEdit")
+    public String performEdit(@Valid @ModelAttribute("restaurant") RestaurantRequest restaurantRequest, BindingResult bindingResult,Model model){
+        Restaurant restaurant = restaurantMapper.restaurantRequestToRestaurant(restaurantRequest);
+        restaurantService.update(restaurant);
+        List <Restaurant> restaurants =  restaurantService.getRestaurants();
+        model.addAttribute("restaurants", restaurants);
+        return "restaurants";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id, Model model){
+        restaurantService.deleteRestaurantById(id);
+        List <Restaurant> restaurants =  restaurantService.getRestaurants();
+        model.addAttribute("restaurants", restaurants);
+        return "restaurants";
+    }
 }

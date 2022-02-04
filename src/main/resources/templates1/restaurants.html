@@ -6,14 +6,24 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
-<a href="/restaurants/createRestaurant">New Restaurant</a>
+<a sec:authorize="hasAuthority('ADMIN')" href="/restaurants/createRestaurant">New Restaurant</a>
+<a sec:authorize="hasAuthority('RESTAURANTMANAGER')" href="/restaurants/createRestaurant">New Restaurant</a>
     <div th:each="restaurant:${restaurants}">
         <p th:text = "${restaurant.getName()}"></p>
-        <p th:text = "${restaurant.getLocation()}"></p>
+        <p th:text = "${restaurant.getLocation().getLatitude()}"></p>
+        <p th:text = "${restaurant.getLocation().getLatitude()}"></p>
 
         <div th:each="reviews:${restaurant.getReviewList()}">
             <p th:text="${reviews.getReview()}"> </p>
             <p th:text="${reviews.getRating()}"> </p>
+        </div>
+        <div>
+            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/restaurants/edit/{id}(id = ${restaurant.getId()})}">Edit</a>
+            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/restaurants/delete/{id}(id = ${restaurant.getId()})}">Delete</a>
+            <a sec:authorize="hasAuthority('RESTAURANTMANAGER')" th:href="@{/restaurants/edit/{id}(id = ${restaurant.getId()})}">Edit</a>
+            <a sec:authorize="hasAuthority('RESTAURANTMANAGER')" th:href="@{/restaurants/delete/{id}(id = ${restaurant.getId()})}">Delete</a>
+            <a sec:authorize="hasAuthority('USER')">Add Review</a>
+            <a th:href="@{/restaurants/{restaurantId}/menu (restaurantId = ${restaurant.getId()})}">See Products</a>
         </div>
     </div>
 

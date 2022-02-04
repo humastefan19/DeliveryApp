@@ -61,4 +61,11 @@ public class SecurityServiceImplementaion implements SecurityService{
         return user1.get().getId();
     }
 
+    @Override
+    public String getCurrentUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        return user.getAuthorities().stream().findFirst().toString();
+    }
+
 }
