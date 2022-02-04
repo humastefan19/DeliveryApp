@@ -4,9 +4,13 @@ import com.example.deliveryapp.dto.RestaurantRequest;
 import com.example.deliveryapp.mapper.RestaurantMapper;
 import com.example.deliveryapp.model.Restaurant;
 import com.example.deliveryapp.model.Review;
+import com.example.deliveryapp.model.User;
 import com.example.deliveryapp.model.product.Product;
 import com.example.deliveryapp.service.RestaurantService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.webjars.NotFoundException;
@@ -16,7 +20,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller
 @Validated
 @RequestMapping("/restaurants")
 public class RestaurantController {
@@ -29,17 +33,26 @@ public class RestaurantController {
         this.restaurantMapper = restaurantMapper;
     }
 
+    @GetMapping("/createRestaurant")
+    public String registration(Model model) {
+
+        model.addAttribute("restaurant", new RestaurantRequest());
+
+        return "createRestaurant";
+    }
+
     @PostMapping("/")
-    public ResponseEntity<?> addRestaurant(@Valid @RequestBody RestaurantRequest restaurantRequest){
+    public String addRestaurant(@Valid @ModelAttribute("restaurant") RestaurantRequest restaurantRequest, BindingResult bindingResult){
         Restaurant restaurant = restaurantMapper.restaurantRequestToRestaurant(restaurantRequest);
         Restaurant cat = restaurantService.addRestaurant(restaurant);
-        return ResponseEntity
-                .created(URI.create("/restaurant/" + restaurantRequest.getName())).body(cat);
+        return "restaurants";
     }
 
     @GetMapping("/{restaurantId}/reviews")
-    public List<Review> getReviews( @PathVariable Long restaurantId) throws Exception {
-        return restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getReviews(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+    public String getReviews( @PathVariable Long restaurantId, Model model) throws Exception {
+        List<Review> reviews =  restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getReviews(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+        model.addAttribute("reviews", reviews);
+        return "restaurants";
     }
 
     @GetMapping("/{restaurantId}/menu")
@@ -49,8 +62,15 @@ public class RestaurantController {
 
 
     @GetMapping("/get")
-    public List<Restaurant> getRestaurants(){
-        return restaurantService.getRestaurants();
+    public String getRestaurants(Model model){
+//        List<Review> reviews =  restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getReviews(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+//        model.addAttribute("reviews", reviews);
+
+        List <Restaurant> restaurants =  restaurantService.getRestaurants();
+        model.addAttribute("restaurants", restaurants);
+        return "restaurants";
+
+
     }
 
 
