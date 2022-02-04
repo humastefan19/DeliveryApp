@@ -6,7 +6,10 @@ import com.example.deliveryapp.model.Restaurant;
 import com.example.deliveryapp.model.Review;
 import com.example.deliveryapp.model.User;
 import com.example.deliveryapp.model.product.Product;
+import com.example.deliveryapp.security.SecurityService;
 import com.example.deliveryapp.service.RestaurantService;
+import com.example.deliveryapp.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,15 +26,13 @@ import java.util.List;
 @Controller
 @Validated
 @RequestMapping("/restaurants")
+@RequiredArgsConstructor
 public class RestaurantController {
 
     private RestaurantService restaurantService;
+    private UserService userService;
+    private SecurityService securityService;
     private RestaurantMapper restaurantMapper;
-
-    public RestaurantController(RestaurantService restaurantService, RestaurantMapper restaurantMapper) {
-        this.restaurantService = restaurantService;
-        this.restaurantMapper = restaurantMapper;
-    }
 
     @GetMapping("/createRestaurant")
     public String registration(Model model) {
@@ -55,6 +56,8 @@ public class RestaurantController {
         return "restaurants";
     }
 
+
+
     @GetMapping("/{restaurantId}/menu")
     public List<Product> getMenu(@PathVariable Long restaurantId) throws Exception {
         return restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
@@ -67,6 +70,17 @@ public class RestaurantController {
 //        model.addAttribute("reviews", reviews);
 
         List <Restaurant> restaurants =  restaurantService.getRestaurants();
+        model.addAttribute("restaurants", restaurants);
+        return "restaurants";
+
+
+    }
+
+    @GetMapping("/nearbyRestaurants")
+    public String getNearbyRestaurants(Model model) throws Exception {
+//        List<Review> reviews =  restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getReviews(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+//        model.addAttribute("reviews", reviews);
+        List <Restaurant> restaurants =  userService.getUserById(securityService.getCurrentUserId()).map(user ->restaurantService.getNearbyRestaurants(user.getLatitude(), user.getLongitude())).orElseThrow(() -> new Exception("User not found"));
         model.addAttribute("restaurants", restaurants);
         return "restaurants";
 

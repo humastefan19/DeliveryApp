@@ -19,6 +19,8 @@ public class User {
     Long id;
     String firstName;
     String lastName;
+    String latitude;
+    String longitude;
     String address;
     String username;
     String password;

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.deliveryapp.model.Restaurant;
 import com.example.deliveryapp.repository.RestaurantRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,32 @@ public class RestaurantService {
 
     public List<Restaurant> getRestaurants(){
         return restaurantRepository.findAll();
+    }
+    public List<Restaurant> getNearbyRestaurants(String latitude, String longitude){
+        Double userLatitude = Math.toRadians(Double.parseDouble(latitude));
+        Double userLongitude =  Math.toRadians(Double.parseDouble(longitude));
+        Integer searchedDistance = 7;
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        List<Restaurant> nearbyRestaurants = new ArrayList<Restaurant>();
+        for (Restaurant restaurant: restaurants){
+            Double restaurantLatitude = Math.toRadians(Double.parseDouble(restaurant.getLocation().getLatitude()));
+            Double restaurantLongitude =  Math.toRadians(Double.parseDouble(restaurant.getLocation().getLongitude()));
+            double dlon = restaurantLongitude - userLongitude;
+            double dlat = restaurantLatitude - userLatitude;
+            double a = Math.pow(Math.sin(dlat / 2), 2)
+                    + Math.cos(userLatitude) * Math.cos(userLongitude)
+                    * Math.pow(Math.sin(dlon / 2),2);
+            double c = 2 * Math.asin(Math.sqrt(a));
+
+            // Radius of earth in kilometers
+            double r = 6371;
+
+            Double distance = c * r;
+            if (distance < searchedDistance){
+               nearbyRestaurants.add(restaurant) ;
+            }
+        }
+        return nearbyRestaurants;
     }
 
     public List<Review> getReviews(Restaurant restaurant){

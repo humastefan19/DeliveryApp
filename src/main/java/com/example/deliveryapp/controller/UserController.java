@@ -51,6 +51,8 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "registration";
         }
+        userForm.setLatitude("44.432127208843845");
+        userForm.setLongitude("26.096829202363917");
 
         userService.save(userForm);
 
