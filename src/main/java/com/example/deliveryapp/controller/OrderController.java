@@ -46,19 +46,23 @@ public class OrderController {
     }
 
     @PostMapping("/editOrder")
-    public String editUser(@ModelAttribute("orderEdit") CustomerOrder orderEdit, BindingResult bindingResult) {
+    public String editUser(@ModelAttribute("orderEdit") CustomerOrder orderEdit, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return "orders";
         }
 
         orderService.updateOrder(orderEdit);
-
-        return "redirect:/orders";
+        List<CustomerOrder> customerOrders = orderService.getOrders();
+        Long totalOrderCount = (long) orderService.getOrders().size();
+        model.addAttribute("totalCount", totalOrderCount);
+        model.addAttribute("orders",customerOrders);
+        return "orders";
     }
 
     @GetMapping("/createOrder")
     public String createOrder(Model model) throws Exception {
+        System.out.println("Aici");
         orderService.createOrder();
         List <Restaurant> restaurants =  userService.getUserById(securityService.getCurrentUserId()).map(user ->restaurantService.getNearbyRestaurants(user.getLatitude(), user.getLongitude())).orElseThrow(() -> new Exception("User not found"));
         model.addAttribute("restaurants", restaurants);
@@ -68,7 +72,11 @@ public class OrderController {
     @DeleteMapping("/deleteOrder/{id}")
     public String deleteOrder(@PathVariable Long id, Model model){
         orderService.deleteOrder(id);
-        return "redirect:/orders";
+        List<CustomerOrder> customerOrders = orderService.getOrders();
+        Long totalOrderCount = (long) orderService.getOrders().size();
+        model.addAttribute("totalCount", totalOrderCount);
+        model.addAttribute("orders",customerOrders);
+        return "orders";
     }
 
     @GetMapping("/ordersHistory")
@@ -94,6 +102,17 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/viewCurrentOrder")
+    public String viewCurrentOrder(Model model){
+        CustomerOrder order = orderService.getCurrentOrder(securityService.getCurrentUserId());
+        model.addAttribute("order", order);
+        if(order == null){
+            return "orders";
+        }else {
+            return "viewOrder";
+        }
+    }
+
     @GetMapping("/moveToPicked/{id}")
     public String moveToPicked(@PathVariable Long id,Model model){
         orderService.pickUpOder(id);
@@ -109,6 +128,12 @@ public class OrderController {
         }else {
             return "viewOrder";
         }
+    }
+
+    @GetMapping("/submitOrder/{id}")
+    public String submitOrder(@PathVariable Long id, Model model){
+        orderService.sendOrder(id);
+        return "welcome";
     }
 
 }

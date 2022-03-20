@@ -1,5 +1,7 @@
 package com.example.deliveryapp.model.product;
 
+import com.example.deliveryapp.model.Restaurant;
+
 public class BeverageBuilder implements ProductBuilder {
     private Product product;
 
@@ -29,6 +31,11 @@ public class BeverageBuilder implements ProductBuilder {
 
     public void salePercent(Integer salePercent){
         product.setSalePercentage(salePercent);
+    }
+
+    @Override
+    public void restaurant(Restaurant restaurant) {
+        product.setRestaurant(restaurant);
     }
 
     public Product getProduct(){

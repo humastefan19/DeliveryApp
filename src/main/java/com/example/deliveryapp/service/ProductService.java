@@ -21,7 +21,7 @@ public class ProductService {
     }
 
     public Product addProduct(Product product, ProductDetails processingProduct){
-        processingProduct.addProductDetails(product.getName(), product.getPrice());
+        processingProduct.addProductDetails(product.getName(), product.getPrice(), product.getRestaurant());
         return productRepository.saveAndFlush(processingProduct.finalProduct());
     }
 

@@ -11,8 +11,8 @@
 
 <div class="container">
 
-    <form method="POST" class="form-signin" th:object="${foods}" th:action="@{/addFoodProduct/}">
-        <h2 class="form-signin-heading">Add food</h2>
+    <form method="POST" class="form-signin" th:object="${beverages}" th:action="@{/products/addBeverageProduct/}">
+        <h2 class="form-signin-heading">Add beverage</h2>
         <div class="form-group">
             <input type="text" th:field="*{id}" class="form-control" placeholder="Restaurant Name"
                    autofocus="true" readonly hidden>

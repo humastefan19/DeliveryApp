@@ -1,5 +1,7 @@
 package com.example.deliveryapp.model.product;
 
+import com.example.deliveryapp.model.Restaurant;
+
 public class ProductDetails {
     private ProductBuilder productBuilder;
 
@@ -13,7 +15,7 @@ public class ProductDetails {
         return this.productBuilder.getProduct();
     }
 
-    public void addProductDetails(String name, Double price)
+    public void addProductDetails(String name, Double price, Restaurant restaurant)
     {
 
         this.productBuilder.productName(name);
@@ -21,6 +23,7 @@ public class ProductDetails {
         this.productBuilder.availability(true);
         this.productBuilder.price(price);
         this.productBuilder.salePercent(0);
+        this.productBuilder.restaurant(restaurant);
     }
 
 }

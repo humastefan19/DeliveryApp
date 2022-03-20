@@ -14,6 +14,7 @@ import com.example.deliveryapp.service.ProductService;
 import com.example.deliveryapp.service.RestaurantService;
 import com.example.deliveryapp.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-@RestController
+@Controller
 @Validated
 @RequestMapping("/products")
 public class ProductController {
@@ -50,7 +51,7 @@ public class ProductController {
         ProductRequest productRequest = new ProductRequest();
         productRequest.setId(restaurantId);
         model.addAttribute("foods", productRequest);
-        return "food";
+        return "foodProduct";
     }
 
     @GetMapping("/addBeverage/{restaurantId}")
@@ -58,7 +59,7 @@ public class ProductController {
         ProductRequest productRequest = new ProductRequest();
         productRequest.setId(restaurantId);
         model.addAttribute("beverages", productRequest);
-        return "beverage";
+        return "beverageProduct";
     }
 
     @PostMapping("/addFoodProduct")
@@ -68,7 +69,7 @@ public class ProductController {
         ProductDetails processingProduct = new ProductDetails(foodBuilder);
         System.out.println(processingProduct);
         Product serviceResponse = productService.addProduct(product, processingProduct);
-        List<Product> products =  restaurantService.getRestaurantById(serviceResponse.getRestaurant().getId()).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+        List<Product> products =  restaurantService.getRestaurantById(productRequest.getId()).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
         model.addAttribute("products", products);
         return "products";
     }
@@ -79,7 +80,7 @@ public class ProductController {
         ProductBuilder beverageBuilder = new BeverageBuilder();
         ProductDetails processingProduct = new ProductDetails(beverageBuilder);
         Product serviceResponse = productService.addProduct(productMapper.productRequestToProduct(productRequest), processingProduct);
-        List<Product> products =  restaurantService.getRestaurantById(serviceResponse.getRestaurant().getId()).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+        List<Product> products =  restaurantService.getRestaurantById(productRequest.getId()).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
         model.addAttribute("products", products);
         return "products";
 

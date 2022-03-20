@@ -76,8 +76,12 @@ public class OrderService {
         order.setUser(currentUser);
         return orderRepository.save(order);
     }
-
-//    public void sendOrder(Long orderId){
-//        CustomerOrder findOrder = orderRepository.getById(order.getId());
-//    }
+    public CustomerOrder getCurrentOrder(Long userId){
+        return orderRepository.getOrderByCustomerId(userId).stream().filter(x -> x.getOrderStatus().equals(OrderStatus.NOT_ORDER)).findFirst().get();
+    }
+    public void sendOrder(Long orderId){
+        CustomerOrder findOrder = orderRepository.getById(orderId);
+        findOrder.setOrderStatus(OrderStatus.IN_PROCESS);
+        orderRepository.save(findOrder);
+    }
 }

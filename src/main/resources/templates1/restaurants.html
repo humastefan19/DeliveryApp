@@ -22,7 +22,7 @@
             <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/restaurants/delete/{id}(id = ${restaurant.getId()})}">Delete</a>
             <a sec:authorize="hasAuthority('RESTAURANTMANAGER')" th:href="@{/restaurants/edit/{id}(id = ${restaurant.getId()})}">Edit</a>
             <a sec:authorize="hasAuthority('RESTAURANTMANAGER')" th:href="@{/restaurants/delete/{id}(id = ${restaurant.getId()})}">Delete</a>
-            <a sec:authorize="hasAuthority('USER')">Add Review</a>
+            <a sec:authorize="hasAuthority('USER')" th:href="@{/reviews/addReview/{restaurantId}/ (restaurantId = ${restaurant.getId()})}">Add Review</a>
             <a th:href="@{/restaurants/{restaurantId}/menu (restaurantId = ${restaurant.getId()})}">See Products</a>
         </div>
     </div>
