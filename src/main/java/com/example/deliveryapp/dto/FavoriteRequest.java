@@ -13,7 +13,7 @@ public class FavoriteRequest {
     private Product product;
 
 
-    public FavoriteRequest(User user,  Product product) {
+    public FavoriteRequest(final User user, final Product product) {
         this.user = user;
         this.product = product;
     }

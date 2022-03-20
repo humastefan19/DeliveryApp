@@ -2,15 +2,15 @@ package com.example.deliveryapp.model.product;
 
 public interface IProduct {
 
-    public void setName(String name);
+    void setName(String name);
 
-    public void setDescription(String description);
+    void setDescription(String description);
 
-    public void setWeight(String weight);
+    void setWeight(String weight);
 
-    public void setPrice(Double price);
+    void setPrice(Double price);
 
-    public void setIsAvailable(Boolean isAvailable);
+    void setIsAvailable(Boolean isAvailable);
 
-    public void setSalePercentage(Integer salePercentage);
+    void setSalePercentage(Integer salePercentage);
 }

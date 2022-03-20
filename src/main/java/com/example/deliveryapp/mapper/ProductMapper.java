@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class ProductMapper {
     private final RestaurantService restaurantService;
 
-    public Product productRequestToProduct(ProductRequest productRequest){
+    public Product productRequestToProduct(final ProductRequest productRequest) {
         Product product = new Product();
         product.setRestaurant(restaurantService.getRestaurantById(productRequest.getId()).get());
         product.setName(productRequest.getName());

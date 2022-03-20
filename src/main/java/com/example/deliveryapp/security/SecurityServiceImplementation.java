@@ -5,23 +5,20 @@ import com.example.deliveryapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class SecurityServiceImplementaion implements SecurityService{
+public class SecurityServiceImplementation implements SecurityService {
 
     private final AuthenticationManager authenticationManager;
 
@@ -29,10 +26,10 @@ public class SecurityServiceImplementaion implements SecurityService{
 
     final UserRepository userRepo;
 
-    private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImplementaion.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImplementation.class);
 
     public boolean isAuthenticated() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || AnonymousAuthenticationToken.class.
                 isAssignableFrom(authentication.getClass())) {
             return false;
@@ -42,8 +39,8 @@ public class SecurityServiceImplementaion implements SecurityService{
 
     @Override
     public void autoLogin(String username, String password) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
 
         authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
@@ -55,15 +52,15 @@ public class SecurityServiceImplementaion implements SecurityService{
 
     @Override
     public Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-        Optional<User> user1 = userRepo.getUserByUsername(user.getUsername());
+        final Optional<User> user1 = userRepo.getUserByUsername(user.getUsername());
         return user1.get().getId();
     }
 
     @Override
     public String getCurrentUserRole() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         return user.getAuthorities().stream().findFirst().toString();
     }

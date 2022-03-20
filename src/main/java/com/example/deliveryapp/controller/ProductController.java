@@ -5,9 +5,7 @@ import com.example.deliveryapp.dto.ProductRequest;
 import com.example.deliveryapp.mapper.FavoriteMapper;
 import com.example.deliveryapp.mapper.ProductMapper;
 import com.example.deliveryapp.model.Favorite;
-import com.example.deliveryapp.model.Rating;
 import com.example.deliveryapp.model.product.*;
-import com.example.deliveryapp.model.Restaurant;
 import com.example.deliveryapp.security.SecurityService;
 import com.example.deliveryapp.service.FavoriteService;
 import com.example.deliveryapp.service.ProductService;
@@ -28,15 +26,16 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    private ProductService productService;
-    private FavoriteService favoriteService;
-    private UserService userService;
-    private ProductMapper productMapper;
-    private FavoriteMapper favoriteMapper;
-    private SecurityService securityService;
-    private RestaurantService restaurantService;
+    private final ProductService productService;
+    private final FavoriteService favoriteService;
+    private final UserService userService;
+    private final ProductMapper productMapper;
+    private final FavoriteMapper favoriteMapper;
+    private final SecurityService securityService;
+    private final RestaurantService restaurantService;
 
-    public ProductController(ProductService productService,FavoriteService favoriteService, ProductMapper productMapper, FavoriteMapper favoriteMapper, UserService userService, SecurityService securityService, RestaurantService restaurantService) {
+    public ProductController(ProductService productService, FavoriteService favoriteService, ProductMapper productMapper,
+                             FavoriteMapper favoriteMapper, UserService userService, SecurityService securityService, RestaurantService restaurantService) {
         this.productService = productService;
         this.favoriteService = favoriteService;
         this.productMapper = productMapper;
@@ -47,7 +46,7 @@ public class ProductController {
     }
 
     @GetMapping("/addFood/{restaurantId}")
-    public String addFood(@PathVariable Long restaurantId, Model model){
+    public String addFood(@PathVariable Long restaurantId, Model model) {
         ProductRequest productRequest = new ProductRequest();
         productRequest.setId(restaurantId);
         model.addAttribute("foods", productRequest);
@@ -55,7 +54,7 @@ public class ProductController {
     }
 
     @GetMapping("/addBeverage/{restaurantId}")
-    public String addBeverage(@PathVariable Long restaurantId, Model model){
+    public String addBeverage(@PathVariable Long restaurantId, Model model) {
         ProductRequest productRequest = new ProductRequest();
         productRequest.setId(restaurantId);
         model.addAttribute("beverages", productRequest);
@@ -64,34 +63,38 @@ public class ProductController {
 
     @PostMapping("/addFoodProduct")
     public String addFoodProduct(@Valid @ModelAttribute("foods") ProductRequest productRequest, Model model) throws Exception {
-        Product product = productMapper.productRequestToProduct(productRequest);
-        ProductBuilder foodBuilder = new FoodBuilder();
-        ProductDetails processingProduct = new ProductDetails(foodBuilder);
-        System.out.println(processingProduct);
+        final Product product = productMapper.productRequestToProduct(productRequest);
+        final ProductBuilder foodBuilder = new FoodBuilder();
+        final ProductDetails processingProduct = new ProductDetails(foodBuilder);
+//        System.out.println(processingProduct);
         Product serviceResponse = productService.addProduct(product, processingProduct);
-        List<Product> products =  restaurantService.getRestaurantById(productRequest.getId()).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+        final List<Product> products = restaurantService.getRestaurantById(productRequest.getId())
+                .map(restaurantService::getMenu)
+                .orElseThrow(() -> new Exception("Restaurant not found"));
         model.addAttribute("products", products);
         return "products";
     }
 
     @PostMapping("/addBeverageProduct")
     public String addBeverageProduct(@Valid @ModelAttribute("beverages") ProductRequest productRequest, Model model) throws Exception {
-        System.out.println(productMapper.productRequestToProduct(productRequest));
-        ProductBuilder beverageBuilder = new BeverageBuilder();
+//        System.out.println(productMapper.productRequestToProduct(productRequest));
+        final ProductBuilder beverageBuilder = new BeverageBuilder();
         ProductDetails processingProduct = new ProductDetails(beverageBuilder);
-        Product serviceResponse = productService.addProduct(productMapper.productRequestToProduct(productRequest), processingProduct);
-        List<Product> products =  restaurantService.getRestaurantById(productRequest.getId()).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+        final Product serviceResponse = productService.addProduct(productMapper.productRequestToProduct(productRequest), processingProduct);
+        final List<Product> products = restaurantService.getRestaurantById(productRequest.getId())
+                .map(restaurantService::getMenu)
+                .orElseThrow(() -> new Exception("Restaurant not found"));
         model.addAttribute("products", products);
         return "products";
 
     }
 
     @PostMapping("/{productId}/favorite")
-    public ResponseEntity<?> addToFavorites( @PathVariable Long productId, @Valid @RequestBody FavoriteRequest favoriteRequest){
-        userService.getUserById(securityService.getCurrentUserId()).ifPresent((user) -> favoriteRequest.setUser(user));
-        productService.getProductById(productId).ifPresent((product) -> favoriteRequest.setProduct(product));
-        Favorite favorite = favoriteMapper.favoriteRequestToFavorite(favoriteRequest);
-        Favorite createdFavorite = favoriteService.addFavorite(favorite);
+    public ResponseEntity<?> addToFavorites(@PathVariable Long productId, @Valid @RequestBody FavoriteRequest favoriteRequest) {
+        userService.getUserById(securityService.getCurrentUserId()).ifPresent(favoriteRequest::setUser);
+        productService.getProductById(productId).ifPresent(favoriteRequest::setProduct);
+        final Favorite favorite = favoriteMapper.favoriteRequestToFavorite(favoriteRequest);
+        final Favorite createdFavorite = favoriteService.addFavorite(favorite);
 
         return ResponseEntity
                 .created(URI.create("/favorite/" + createdFavorite.getId()))

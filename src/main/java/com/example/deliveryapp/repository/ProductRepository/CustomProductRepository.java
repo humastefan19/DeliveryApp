@@ -4,5 +4,5 @@ import com.example.deliveryapp.model.product.Product;
 import com.example.deliveryapp.model.product.ProductDetails;
 
 public interface CustomProductRepository {
-    public Product addProduct (Product product,  ProductDetails processingProduct);
+    Product addProduct(final Product product, final ProductDetails processingProduct);
 }

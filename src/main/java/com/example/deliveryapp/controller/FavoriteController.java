@@ -26,16 +26,17 @@ public class FavoriteController {
     private final UserService userService;
     private final RestaurantService restaurantService;
 
-
     @GetMapping("/addFavorites/{productId}/{restaurantId}")
-    public String addFavorites(@PathVariable Long productId,@PathVariable Long restaurantId, Model model) throws Exception {
-        Product product = productService.getProductById(productId).get();
+    public String addFavorites(@PathVariable Long productId, @PathVariable Long restaurantId, Model model) throws Exception {
+        final Product product = productService.getProductById(productId).get();
         Favorite favorite = new Favorite();
-        User user = userService.getUserById(securityService.getCurrentUserId()).get();
+        final User user = userService.getUserById(securityService.getCurrentUserId()).get();
         favorite.setUser(user);
         favorite.setProduct(product);
         favoriteService.addFavorite(favorite);
-        List<Product> products =  restaurantService.getRestaurantById(restaurantId).map(restaurant -> restaurantService.getMenu(restaurant)).orElseThrow(() -> new Exception("Restaurant not found"));
+        final List<Product> products = restaurantService.getRestaurantById(restaurantId)
+                .map(restaurantService::getMenu)
+                .orElseThrow(() -> new Exception("Restaurant not found"));
         model.addAttribute("products", products);
         model.addAttribute("restaurantId", restaurantId);
         return "products";

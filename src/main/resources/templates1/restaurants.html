@@ -1,36 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <title>Restaurants</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
-<a sec:authorize="hasAuthority('ADMIN')" href="/restaurants/createRestaurant">New Restaurant</a>
-<a sec:authorize="hasAuthority('RESTAURANTMANAGER')" href="/restaurants/createRestaurant">New Restaurant</a>
-    <div th:each="restaurant:${restaurants}">
-        <p th:text = "${restaurant.getName()}"></p>
-        <p th:text = "${restaurant.getLocation().getLatitude()}"></p>
-        <p th:text = "${restaurant.getLocation().getLatitude()}"></p>
+<div>
+    <a sec:authorize="hasAuthority('ADMIN')" href="/restaurants/createRestaurant">New Restaurant</a>
+</div>
+<div>
+    <a sec:authorize="hasAuthority('RESTAURANTMANAGER')" href="/restaurants/createRestaurant">New Restaurant</a>
+</div>
+<div th:each="restaurant:${restaurants}">
+    <p th:text="${restaurant.getName()}"></p>
+    <p th:text="${restaurant.getLocation().getLongitude()}"></p>
+    <p th:text="${restaurant.getLocation().getLatitude()}"></p>
 
-        <div th:each="reviews:${restaurant.getReviewList()}">
-            <p th:text="${reviews.getReview()}"> </p>
-            <p th:text="${reviews.getRating()}"> </p>
-        </div>
-        <div>
-            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/restaurants/edit/{id}(id = ${restaurant.getId()})}">Edit</a>
-            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/restaurants/delete/{id}(id = ${restaurant.getId()})}">Delete</a>
-            <a sec:authorize="hasAuthority('RESTAURANTMANAGER')" th:href="@{/restaurants/edit/{id}(id = ${restaurant.getId()})}">Edit</a>
-            <a sec:authorize="hasAuthority('RESTAURANTMANAGER')" th:href="@{/restaurants/delete/{id}(id = ${restaurant.getId()})}">Delete</a>
-            <a sec:authorize="hasAuthority('USER')" th:href="@{/reviews/addReview/{restaurantId}/ (restaurantId = ${restaurant.getId()})}">Add Review</a>
-            <a th:href="@{/restaurants/{restaurantId}/menu (restaurantId = ${restaurant.getId()})}">See Products</a>
-        </div>
+    <div th:each="reviews:${restaurant.getReviewList()}">
+        <p th:text="${reviews.getReview()}"></p>
+        <p th:text="${reviews.getRating()}"></p>
     </div>
+    <div>
+        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/restaurants/edit/{id}(id = ${restaurant.getId()})}">Edit</a>
+        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/restaurants/delete/{id}(id = ${restaurant.getId()})}">Delete</a>
+        <a sec:authorize="hasAuthority('RESTAURANTMANAGER')" th:href="@{/restaurants/edit/{id}(id = ${restaurant.getId()})}">Edit</a>
+        <a sec:authorize="hasAuthority('RESTAURANTMANAGER')"
+           th:href="@{/restaurants/delete/{id}(id = ${restaurant.getId()})}">Delete</a>
+        <a sec:authorize="hasRole('USER')"
+           th:href="@{/reviews/addReview/{restaurantId}/ (restaurantId = ${restaurant.getId()})}">Add Review</a>
+        <a th:href="@{/restaurants/{restaurantId}/menu (restaurantId = ${restaurant.getId()})}">See Products</a>
+    </div>
+</div>
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
 <script src="/js/main.js"></script>
 </body>
 </html>

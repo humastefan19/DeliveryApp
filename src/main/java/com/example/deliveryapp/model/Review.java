@@ -1,36 +1,32 @@
 package com.example.deliveryapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
-@ToString
+@Data
 @Entity
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @NotNull
-    String review;
+    private String review;
 
     @NotNull
-    Integer rating;
+    private Integer rating;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user")
     @JsonIgnore
-    User user;
+    private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant")
     @JsonIgnore
-    Restaurant restaurant;
+    private Restaurant restaurant;
 
 }

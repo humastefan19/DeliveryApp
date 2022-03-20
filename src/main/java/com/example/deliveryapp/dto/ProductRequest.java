@@ -1,6 +1,5 @@
 package com.example.deliveryapp.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -11,23 +10,23 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ProductRequest {
 
-    Long id;
+    private Long id;
     @NotBlank(message = "Name of restaurant cannot be empty")
-    String name;
-    String description;
+    private String name;
+    private String description;
     @NotNull
-    String weight;
+    private String weight;
     @NotNull
     @Min(0)
-    Double price;
-    String location;
-    Boolean isAvailable;
-    Integer salePercentage;
+    private Double price;
+    private String location;
+    private Boolean isAvailable;
+    private Integer salePercentage;
 
     public ProductRequest() {
     }
 
-    public ProductRequest(Long id,@NotBlank(message = "Name of restaurant cannot be empty") String name, String description, @NotNull String weight, @NotNull @Min(0) Double price, String location, Boolean isAvailable, Integer salePercentage) {
+    public ProductRequest(Long id, @NotBlank(message = "Name of restaurant cannot be empty") String name, String description, @NotNull String weight, @NotNull @Min(0) Double price, String location, Boolean isAvailable, Integer salePercentage) {
         this.id = id;
         this.name = name;
         this.description = description;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FavoriteService {
-    FavoriteRepository favoriteRepository;
+    private final FavoriteRepository favoriteRepository;
 
     public FavoriteService(FavoriteRepository favoriteRepository) {
         this.favoriteRepository = favoriteRepository;

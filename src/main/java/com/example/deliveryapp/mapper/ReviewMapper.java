@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReviewMapper {
-    public Review reviewRequestToReview(ReviewRequest reviewRequest){
+    public Review reviewRequestToReview(final ReviewRequest reviewRequest) {
         Review review = new Review();
         review.setReview(reviewRequest.getReview());
         review.setUser(reviewRequest.getUser());

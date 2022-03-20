@@ -4,10 +4,6 @@ import com.example.deliveryapp.model.Restaurant;
 import com.example.deliveryapp.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.Value;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class RatingRequest {

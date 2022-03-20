@@ -4,19 +4,19 @@ import com.example.deliveryapp.model.Restaurant;
 
 public interface ProductBuilder {
 
-    public void productName(String name);
+    void productName(String name);
 
-    public void description();
+    void description(String description);
 
-    public void weight(Integer weight);
+    void weight(String weight);
 
-    public void price(Double price);
+    void price(Double price);
 
-    public void availability(Boolean isAvailable);
+    void availability(Boolean isAvailable);
 
-    public void salePercent(Integer salePercent);
+    void salePercent(Integer salePercent);
 
-    public void restaurant(Restaurant restaurant);
+    void restaurant(Restaurant restaurant);
 
-    public Product getProduct();
+    Product getProduct();
 }

@@ -1,32 +1,24 @@
 package com.example.deliveryapp.controller;
 
-import com.example.deliveryapp.dto.RegisterUser;
 import com.example.deliveryapp.model.User;
-import com.example.deliveryapp.repository.UserRepository;
 import com.example.deliveryapp.security.SecurityService;
 import com.example.deliveryapp.service.UserService;
-import com.example.deliveryapp.utils.Roles;
 import com.example.deliveryapp.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
-
 
 @Controller
 @RequiredArgsConstructor
 public class UserController {
-
 
     private final UserService userService;
 
@@ -82,19 +74,19 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public String getUsers(Model model){
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("users",users);
+    public String getUsers(Model model) {
+        final List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
         return "users";
     }
 
     @GetMapping("/getUserForEdit/{id}")
-    public String getUserForEdit(@PathVariable Long id, Model model){
-        Optional<User> user = userService.getUserById(id);
+    public String getUserForEdit(@PathVariable Long id, Model model) {
+        final Optional<User> user = userService.getUserById(id);
         model.addAttribute("userEdit", user);
-        if(user == null){
+        if (user == null) {
             return "users";
-        }else {
+        } else {
             return "editUser";
         }
     }
@@ -113,7 +105,7 @@ public class UserController {
     }
 
     @GetMapping("/deleteUser/{id}")
-    public String deleteUser(@PathVariable Long id, Model model){
+    public String deleteUser(@PathVariable Long id, Model model) {
         userService.deleteUser(id);
         return "redirect:/users";
     }

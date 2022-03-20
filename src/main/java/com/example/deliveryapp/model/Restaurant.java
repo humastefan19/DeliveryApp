@@ -2,23 +2,20 @@ package com.example.deliveryapp.model;
 
 import com.example.deliveryapp.model.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
-@Getter
-@Setter
-@ToString
+
 @Entity
+@Data
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    Long id;
+    @Column(name = "id")
+    private Long id;
 
-    String name;
+    private String name;
 //    int locationId;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -27,14 +24,14 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     @JsonIgnore
-    List<Product> productList;
+    private List<Product> productList;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    List<Review> reviewList;
+    private List<Review> reviewList;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     @JsonIgnore
-    List<Rating> ratingList;
+    private List<Rating> ratingList;
 
 //    public Restaurant(Long id, String name, int locationId) {
 //        this.id = id;

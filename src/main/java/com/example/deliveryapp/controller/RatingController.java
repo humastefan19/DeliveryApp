@@ -1,8 +1,8 @@
 package com.example.deliveryapp.controller;
+
 import com.example.deliveryapp.dto.RatingRequest;
 import com.example.deliveryapp.mapper.RatingMapper;
 import com.example.deliveryapp.model.Rating;
-import com.example.deliveryapp.model.User;
 import com.example.deliveryapp.security.SecurityService;
 import com.example.deliveryapp.service.RatingService;
 import com.example.deliveryapp.service.RestaurantService;
@@ -13,21 +13,20 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 @Validated
 @RequestMapping("/ratings")
 public class RatingController {
 
-    private RatingMapper ratingMapper;
-    private RatingService ratingService;
-    private UserService userService;
-    private RestaurantService restaurantService;
-    private SecurityService securityService;
+    private final RatingMapper ratingMapper;
+    private final RatingService ratingService;
+    private final UserService userService;
+    private final RestaurantService restaurantService;
+    private final SecurityService securityService;
 
-    public RatingController(RatingService ratingService, UserService userService, RestaurantService restaurantService,RatingMapper ratingMapper, SecurityService securityService) {
-
+    public RatingController(final RatingService ratingService, final UserService userService, final RestaurantService restaurantService,
+                            final RatingMapper ratingMapper, final SecurityService securityService) {
         this.ratingMapper = ratingMapper;
         this.ratingService = ratingService;
         this.userService = userService;
@@ -49,12 +48,11 @@ public class RatingController {
             @RequestBody
                     RatingRequest ratingRequest,
             @PathVariable
-                    Long restaurantId)
-    {
-         userService.getUserById(securityService.getCurrentUserId()).ifPresent((user) -> ratingRequest.setUser(user));
-         restaurantService.getRestaurantById(restaurantId).ifPresent((restaurant) -> ratingRequest.setRestaurant(restaurant));
-        Rating rating = ratingMapper.ratingRequestToRating(ratingRequest);
-        Rating createdRating = ratingService.addRating(rating);
+                    Long restaurantId) {
+        userService.getUserById(securityService.getCurrentUserId()).ifPresent(ratingRequest::setUser);
+        restaurantService.getRestaurantById(restaurantId).ifPresent(ratingRequest::setRestaurant);
+        final Rating rating = ratingMapper.ratingRequestToRating(ratingRequest);
+        final Rating createdRating = ratingService.addRating(rating);
 
         return ResponseEntity
                 .created(URI.create("/rating/" + createdRating.getId()))

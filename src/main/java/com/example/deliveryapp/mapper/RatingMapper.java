@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RatingMapper {
-    public Rating ratingRequestToRating(RatingRequest ratingRequest){
+    public Rating ratingRequestToRating(final RatingRequest ratingRequest) {
         Rating rating = new Rating();
         rating.setValue(ratingRequest.getValue());
         rating.setUser(ratingRequest.getUser());

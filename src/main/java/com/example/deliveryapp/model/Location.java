@@ -1,19 +1,17 @@
 package com.example.deliveryapp.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Setter
-@Getter
+@Data
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @OneToOne(mappedBy = "location")
-    Restaurant restaurant;
-    String latitude;
-    String longitude;
+    private Restaurant restaurant;
+    private String latitude;
+    private String longitude;
 }

@@ -15,22 +15,22 @@ import java.util.List;
 public class CustomerOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    OrderStatus orderStatus;
-    Double TotalPrice;
-    Double DeliveryPrice;
-    Double TotalProductPrice;
+    private OrderStatus orderStatus;
+    private Double TotalPrice;
+    private Double DeliveryPrice;
+    private Double TotalProductPrice;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "delivery_id")
-    User delivery;
+    private User delivery;
 
     @OneToMany(mappedBy = "order")
-    List<Cart> cartList;
+    private List<Cart> cartList;
 
 }

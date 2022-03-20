@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FavoriteMapper {
-    public Favorite favoriteRequestToFavorite(FavoriteRequest favoriteRequest){
+    public Favorite favoriteRequestToFavorite(final FavoriteRequest favoriteRequest) {
         Favorite favorite = new Favorite();
         favorite.setUser(favoriteRequest.getUser());
         favorite.setProduct(favoriteRequest.getProduct());

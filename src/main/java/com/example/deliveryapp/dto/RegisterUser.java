@@ -1,17 +1,14 @@
 package com.example.deliveryapp.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 public class RegisterUser {
-    String firstName;
-    String lastName;
-    String address;
-    String username;
-    String password;
-
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String username;
+    private String password;
 }

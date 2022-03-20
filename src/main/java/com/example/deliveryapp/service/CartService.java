@@ -7,7 +7,6 @@ import com.example.deliveryapp.repository.CartRepository;
 import com.example.deliveryapp.repository.OrderRepository;
 import com.example.deliveryapp.repository.ProductRepository.ProductRepository;
 import com.example.deliveryapp.security.SecurityService;
-import com.example.deliveryapp.utils.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,20 +20,16 @@ public class CartService {
     private final ProductRepository productRepository;
     private final OrderService orderService;
 
-    public Cart addProductToCart(Long productId){
-        CustomerOrder customerOrder= orderService.getCurrentOrder(securityService.getCurrentUserId());
-        Product product = productRepository.getById(productId);
+    public Cart addProductToCart(final Long productId) {
+        CustomerOrder customerOrder = orderService.getCurrentOrder(securityService.getCurrentUserId());
+        final Product product = productRepository.getById(productId);
         customerOrder.setTotalProductPrice(customerOrder.getTotalProductPrice() == null ? product.getPrice() : customerOrder.getTotalProductPrice() + product.getPrice());
-        customerOrder.setTotalPrice(customerOrder.getTotalPrice() == null ? customerOrder.getTotalProductPrice() : customerOrder.getTotalProductPrice() + customerOrder.getTotalPrice() );
+        customerOrder.setTotalPrice(customerOrder.getTotalPrice() == null ? customerOrder.getTotalProductPrice() : customerOrder.getTotalProductPrice() + customerOrder.getTotalPrice());
         Cart cart = new Cart();
         cart.setProduct(product);
         cart.setOrder(customerOrder);
         return cartRepository.save(cart);
     }
-
-
-
-
 
 
 }

@@ -5,12 +5,9 @@ import com.example.deliveryapp.model.User;
 import com.example.deliveryapp.repository.RoleRepository;
 import com.example.deliveryapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +24,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(roleRepository.getByName("USER")));
+        user.setRole(roleRepository.getByName("USER"));
         userRepository.save(user);
     }
 

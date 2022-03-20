@@ -3,6 +3,7 @@ package com.example.deliveryapp.model.product;
 import com.example.deliveryapp.model.Cart;
 import com.example.deliveryapp.model.Favorite;
 import com.example.deliveryapp.model.Restaurant;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,24 +13,25 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@Data
 public class Product implements IProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    String description;
-    String weight;
-    Double price;
-    Boolean isAvailable;
-    Integer salePercentage;
+    private Long id;
+    private String name;
+    private String description;
+    private String weight;
+    private Double price;
+    private Boolean isAvailable;
+    private Integer salePercentage;
 
     @OneToMany(mappedBy = "product")
-    List<Favorite> favorites;
+    private List<Favorite> favorites;
 
     @OneToMany(mappedBy = "product")
-    List<Cart> carts;
+    private List<Cart> carts;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
-    Restaurant restaurant;
+    private Restaurant restaurant;
 }

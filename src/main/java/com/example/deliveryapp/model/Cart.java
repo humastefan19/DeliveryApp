@@ -14,13 +14,13 @@ import javax.persistence.*;
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    CustomerOrder order;
+    private CustomerOrder order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    Product product;
+    private Product product;
 }

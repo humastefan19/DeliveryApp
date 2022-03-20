@@ -4,20 +4,17 @@ import com.example.deliveryapp.model.Review;
 import com.example.deliveryapp.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ReviewService {
 
-    ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
 
-    public ReviewService(ReviewRepository reviewRepository) {
+    public ReviewService(final ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
-    public Review addReview(Review review) {
+    public Review addReview(final Review review) {
         return reviewRepository.saveAndFlush(review);
     }
-
 
 }
